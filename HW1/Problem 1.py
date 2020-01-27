@@ -39,6 +39,15 @@ def judge(test, mean):
     return out_put
 
 
+def error_rate(output_label, test_label):
+    boolean_out = [1 if i == j else 0 for i, j in
+                   zip(output_label, test_label)]  # input 1 if the output is correct, else 0
+    correct = 0
+    for i in range(len(boolean_out)):
+        if boolean_out[i] == 1: correct += 1
+    return correct / len(output_label)
+
+
 x_data, y_data, label_data, mean_data = read_and_mean('./datasets/synthetic1_train.csv')
 
 with open('./datasets/synthetic1_test.csv', 'r') as train_data:
@@ -52,14 +61,12 @@ for i in range(len(test_data)):
     test_data[i] = list(map(float, test_data[i]))
 
 output = judge(test_data, mean_data)
+err_rate = 1 - error_rate(output, test_label)
+print(err_rate)
 
-train_dataset = []
-train_dataset.append(x_data)
-train_dataset.append(y_data)
-train_dataset = np.array(train_dataset)
+train_dataset = [x_data, y_data]
+train_dataset = np.array(train_dataset)  # merge x and y training data and transfer into np.array
+
 mean_data = np.array(mean_data)
 label_data = np.array(label_data)
 plotDecBoundaries(train_dataset.T, label_data, mean_data)
-
-
-
