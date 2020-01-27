@@ -65,29 +65,30 @@ def read_test_data(test_dir, i, j, k):
     return test_data, test_label
 
 
-test_data, test_label = read_test_data(test_data_dir, first_column, second_column, label_column)
-x_data, y_data, train_label, mean_data = read_and_mean(train_data_dir, first_column, second_column, label_column)
-train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
-mean_data = np.array(mean_data)
-train_label = np.array(train_label)
-
-output = judge(train_dataset.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
-err_rate = 1 - error_rate(output, train_label.tolist())  # or replace test_label with train_label.tolist()
-print("The error rate is:", err_rate)
-
-plotDecBoundaries(train_dataset, train_label, mean_data)
-
-# opt_i, opt_j, opt_err_rate = 0, 0, 100
-# for i in range(label_column):  # we assume the label is the last column
-#     for j in range(i, label_column):
-#         test_data, test_label = read_test_data(test_data_dir, i, j, label_column)
-#         x_data, y_data, train_label, mean_data = read_and_mean(train_data_dir, i, j, label_column)
-#         train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
-#         train_label = np.array(train_label)
+# test_data, test_label = read_test_data(test_data_dir, first_column, second_column, label_column)
+# x_data, y_data, train_label, mean_data = read_and_mean(train_data_dir, first_column, second_column, label_column)
+# train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
+# mean_data = np.array(mean_data)
+# train_label = np.array(train_label)
 #
-#         output = judge(train_dataset.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
-#         err_rate = 1 - error_rate(output, train_label.tolist())  # or replace test_label with train_label.tolist()
-#         if err_rate < opt_err_rate: opt_i, opt_j, opt_err_rate = i, j, err_rate
+# output = judge(train_dataset.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
+# err_rate = 1 - error_rate(output, train_label.tolist())  # or replace test_label with train_label.tolist()
+# print("The error rate is:", err_rate)
 #
-# print("The error rate is:", opt_err_rate)
-# print(opt_i, opt_j)
+# plotDecBoundaries(train_dataset, train_label, mean_data)
+
+opt_i, opt_j, opt_err_rate = 0, 0, 100
+for i in range(label_column):  # we assume the label is the last column
+    for j in range(i, label_column):
+        test_data, test_label = read_test_data(test_data_dir, i, j, label_column)
+        x_data, y_data, train_label, mean_data = read_and_mean(train_data_dir, i, j, label_column)
+        train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
+        train_label = np.array(train_label)
+
+        output = judge(train_dataset.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
+        err_rate = 1 - error_rate(output, train_label.tolist())  # or replace test_label with train_label.tolist()
+        if err_rate < opt_err_rate: opt_i, opt_j, opt_err_rate = i, j, err_rate
+
+
+print("The minimum error rate comes with columns {} and {} with an error-rate of {}".format(opt_i, opt_j, opt_err_rate))
+
