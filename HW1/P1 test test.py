@@ -1,18 +1,20 @@
 import math
 import numpy as np
+from datasets.plotDecBoundaries import plotDecBoundaries
 
 
 def read_and_mean(dir):
     with open(dir, 'r') as train_data:
-        reader = (train_data)
+        reader = train_data.read().splitlines()
         x_data, y_data, label = [], [], []
         for rows in reader:
+            rows = rows.split(',')
             x_data.append(rows[0])
             y_data.append(rows[1])
             label.append(rows[2])
         x_data = list(map(float, x_data))
         y_data = list(map(float, y_data))
-        label = list(map(float, label))
+        label = list(map(int, label))
 
     class_no = len(set(label))  # number of class labels
     # class_index = [[] for i in range(class_no)]   # the index of classes with size k * n
@@ -24,7 +26,7 @@ def read_and_mean(dir):
         mean_coordinate.append(sum(x_data[min(temp):(max(temp) + 1)]) / len(temp))
         mean_coordinate.append(sum(y_data[min(temp):(max(temp) + 1)]) / len(temp))
         class_mean.append(mean_coordinate)
-    return class_mean
+    return x_data, y_data, label, class_mean
 
 
 def judge(test, mean):
@@ -37,12 +39,11 @@ def judge(test, mean):
     return out_put
 
 
-mean_data = read_and_mean('./datasets/synthetic1_train.csv')
+x_data, y_data, label_data, mean_data = read_and_mean('./datasets/synthetic1_train.csv')
 
 with open('./datasets/synthetic1_test.csv', 'r') as train_data:
-    reader = csv.reader(train_data)
-    test_label = []
-    test = [data for data in reader]
+    reader = train_data.readlines()
+    test = [rows.split(',') for rows in reader]
     test_data = [data[:2] for data in test]
     test_label = [data[2] for data in test]
     test_label = list(map(int, test_label))
@@ -50,6 +51,15 @@ with open('./datasets/synthetic1_test.csv', 'r') as train_data:
 for i in range(len(test_data)):
     test_data[i] = list(map(float, test_data[i]))
 
-a = judge(test_data, mean_data)
-print(a)
-print(test_label)
+output = judge(test_data, mean_data)
+
+a = []
+a.append(x_data)
+a.append(y_data)
+a = np.array(a)
+mean_data = np.array(mean_data)
+label_data = np.array(label_data)
+plotDecBoundaries(a.T, label_data, mean_data)
+
+
+
