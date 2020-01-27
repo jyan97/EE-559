@@ -20,7 +20,7 @@ def read_and_mean(dir):
     # class_index = [[] for i in range(class_no)]   # the index of classes with size k * n
     class_mean = []
     for i in range(class_no):
-        temp = [j for j in range(len(label)) if label[j] == (i + 1)] # for label 1, temp is from 0 to 49
+        temp = [j for j in range(len(label)) if label[j] == (i + 1)]  # for label 1, temp is from 0 to 49
         # class_index[i] = temp
         mean_coordinate = [sum(x_data[min(temp):(max(temp) + 1)]) / len(temp),
                            sum(y_data[min(temp):(max(temp) + 1)]) / len(temp)]
@@ -50,7 +50,7 @@ def error_rate(output_label, test_label):
 x_data, y_data, label_data, mean_data = read_and_mean('./datasets/synthetic1_train.csv')
 
 with open('./datasets/synthetic1_test.csv', 'r') as train_data:
-    reader = train_data.readlines()               # if you use csv, the reader could only read once
+    reader = train_data.readlines()  # if you use csv, the reader could only read once since it's iterator
     test = [rows.split(',') for rows in reader]
     test_data = [data[:2] for data in test]
     test_label = [data[2] for data in test]
@@ -58,7 +58,6 @@ with open('./datasets/synthetic1_test.csv', 'r') as train_data:
 
 for i in range(len(test_data)):
     test_data[i] = list(map(float, test_data[i]))
-
 
 output = judge(test_data, mean_data)
 err_rate = 1 - error_rate(output, test_label)
