@@ -1,3 +1,14 @@
+# EE559 Homework 1 (week 2)
+
+**Jingquan Yan**
+
+**USC ID: 1071912676**
+
+**Email: jingquan@usc.edu**
+
+---
+
+```python
 import math
 import numpy as np
 from plotDecBoundaries import plotDecBoundaries  # datasets and script are supposed to be in same directory
@@ -101,3 +112,6 @@ print("The minimum error rate comes with columns {} and {} with an error-rate of
 print("The mean of error_rate is :", np.mean(np.array(err_list)))
 print("The standard deviation of error_rate is :", np.std(np.array(err_list), ddof=1))
 #################################
+
+```
+
