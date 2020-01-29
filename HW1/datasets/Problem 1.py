@@ -1,10 +1,10 @@
 import math
 import numpy as np
-from datasets.plotDecBoundaries import plotDecBoundaries
+from plotDecBoundaries import plotDecBoundaries
 
-train_data_dir = './datasets/wine_train.csv'
-test_data_dir = './datasets/wine_test.csv'
-first_column = 0
+train_data_dir = 'wine_train.csv'
+test_data_dir = 'wine_test.csv'
+first_column = 0   # list index which starts from 0
 second_column = 11
 label_column = 13
 
@@ -36,11 +36,12 @@ def read_and_mean(dir, i, j, k):
 
 def judge(test, mean):
     temp = []
-    out_put = [None] * len(test)
+    out_put = []
     for i in range(len(mean)):
         temp.append([math.sqrt((test1[0] - mean[i][0]) ** 2 + ((test1[1] - mean[i][1]) ** 2)) for test1 in test])
-    for i in range(len(test)):
-        out_put[i] = 1 if temp[0][i] < temp[1][i] else 2
+    temp = list(map(list, zip(*temp)))
+    # Transpose. Little tricky here, first unzip temp and then zip them in another dimension.
+    out_put = [ax.index(min(ax)) + 1 for ax in temp] # find the minimum distance's index
     return out_put
 
 
@@ -57,8 +58,8 @@ def read_test_data(test_dir, i, j, k):
     with open(test_dir, 'r') as train_data:
         reader = train_data.readlines()  # if using csv, the reader could only read once since it's a iterator
         test = [rows.split(',') for rows in reader]
-        test_data = [data[:2] for data in test]
-        test_label = [data[13] for data in test]
+        test_data = [[data[i], data[j]] for data in test]
+        test_label = [data[k] for data in test]
         test_label = list(map(int, test_label))
     for i in range(len(test_data)):
         test_data[i] = list(map(float, test_data[i]))
@@ -70,16 +71,19 @@ def read_test_data(test_dir, i, j, k):
 # train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
 # mean_data = np.array(mean_data)
 # train_label = np.array(train_label)
+# test_data = np.array(test_data)
+# test_label = np.array(test_label)
 #
-# output = judge(train_dataset.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
-# err_rate = 1 - error_rate(output, train_label.tolist())  # or replace test_label with train_label.tolist()
+# output = judge(test_data.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
+# err_rate = 1 - error_rate(output, test_label.tolist())  # or replace test_label with train_label.tolist()
 # print("The error rate is:", err_rate)
 #
-# plotDecBoundaries(train_dataset, train_label, mean_data)
+# plotDecBoundaries(test_data, test_label, mean_data) # or replace test_data with train_dataset.tolist()
 
-opt_i, opt_j, opt_err_rate = 0, 0, 100
+opt_i, opt_j, opt_err_rate = 0, 0, 100    #opt_err_rate is arbitrarily set that is larger than 1
+err_list = []
 for i in range(label_column):  # we assume the label is the last column
-    for j in range(i, label_column):
+    for j in range(i + 1, label_column):
         test_data, test_label = read_test_data(test_data_dir, i, j, label_column)
         x_data, y_data, train_label, mean_data = read_and_mean(train_data_dir, i, j, label_column)
         train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
@@ -87,8 +91,10 @@ for i in range(label_column):  # we assume the label is the last column
 
         output = judge(train_dataset.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
         err_rate = 1 - error_rate(output, train_label.tolist())  # or replace test_label with train_label.tolist()
+        err_list.append(err_rate)
         if err_rate < opt_err_rate: opt_i, opt_j, opt_err_rate = i, j, err_rate
 
 
-print("The minimum error rate comes with columns {} and {} with an error-rate of {}".format(opt_i, opt_j, opt_err_rate))
-
+print("The minimum error rate comes with columns {} and {} with an error-rate of {}".format(opt_i+1, opt_j+1, opt_err_rate))
+print("The mean of error_rate is :", np.mean(np.array(err_list)))
+print("The standard deviation of error_rate is :", np.std(np.array(err_list), ddof = 1))
