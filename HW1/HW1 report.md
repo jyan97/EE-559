@@ -114,7 +114,7 @@ The reason is that the decision criteria only brings the average coordinate into
 
 **(e)**
 
-For **training data**, there are differences for different pairs of features but not such large. The error rates of different pairs are around 0.1-0.5 and the mean and standard deviation are as follow:
+For **training data**, there are relatively large differences for different pairs of features. The error rates of different pairs are around 0.1-0.4 and the mean and standard deviation are as follow:
 
 <div align=left><img src="C:\git\559\HW1\pic\9-3.png" style="zoom:90%;" />
 

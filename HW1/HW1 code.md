@@ -10,6 +10,8 @@
 
 ---
 
+##### Global variables and functions:
+
 ```python
 import math
 import numpy as np
@@ -78,8 +80,11 @@ def read_test_data(test_dir, i, j, k):
         test_data[i] = list(map(float, test_data[i]))
     return test_data, test_label
 
+```
 
-#### The following codes are for problem 1 (synthetic data sets)
+#### For synthetic dataset 1 and 2:
+
+```python
 test_data, test_label = read_test_data(test_data_dir, first_column, second_column, label_column)
 x_data, y_data, train_label, mean_data = read_and_mean(train_data_dir, first_column, second_column, label_column)
 train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
@@ -92,9 +97,12 @@ output = judge(test_data.tolist(), mean_data)  # or replace test_data with train
 err_rate = 1 - error_rate(output, test_label.tolist())  # or replace test_label with train_label.tolist()
 print("The error rate is:", err_rate)
 plotDecBoundaries(test_data, test_label, mean_data)  # or replace test_data with train_dataset.tolist()
-#################################
 
-###### The following codes are for wine data set
+```
+
+#### For wine dataset:
+
+```python
 opt_i, opt_j, opt_err_rate = 0, 0, 100  # opt_err_rate is arbitrarily set that is larger than 1
 err_list = []
 for i in range(label_column):  # we assume the label is the last column
