@@ -113,7 +113,6 @@ print("The minimum error rate comes with columns {} and {} with an error-rate of
                                                                                             opt_err_rate))
 print("The mean of error_rate is :", np.mean(np.array(err_list)))
 print("The standard deviation of error_rate is :", np.std(np.array(err_list), ddof=1))
-#################################
 
 ```
 
