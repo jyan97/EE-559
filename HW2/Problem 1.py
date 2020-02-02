@@ -1,9 +1,8 @@
-import math
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 coeff_mat = [[-1, -1, 5], [-1, 0, 3], [-1, 1, -1]]
-coeff_mat = [[-(x[1] / x[0]), -(x[2] / x[0])] for x in coeff_mat]
+coeff_mat_T = [[-(x[1] / x[0]), -(x[2] / x[0])] for x in coeff_mat]
 dot_set = [[4, 1], [1, 5], [0, 0]]
 dot_x, dot_y = list(map(list, zip(*dot_set)))
 
@@ -12,8 +11,8 @@ y_axis = np.linspace(-5, 15, 100)
 plt.xlim(-5, 10)
 plt.ylim(-5, 10)
 
-for i in range(len(coeff_mat)):
-    x_axis = np.array(coeff_mat[i][0]) * y_axis + np.array(coeff_mat[i][1])
+for i in range(len(coeff_mat_T)):
+    x_axis = np.array(coeff_mat_T[i][0]) * y_axis + np.array(coeff_mat_T[i][1])
     plt.plot(x_axis, y_axis, linewidth=4)
 
 x1 = np.linspace(-5, 10, 150)
@@ -30,8 +29,20 @@ x_bar.spines['top'].set_color('none')
 x_bar.spines['bottom'].set_position(('data', 0))
 x_bar.spines['left'].set_position(('data', 0))
 
-plt.scatter(dot_x, dot_y, color='r', zorder = 100)
+plt.scatter(dot_x, dot_y, color='r', zorder = 100, linewidths=4)
 plt.grid(True)
 plt.legend()
 
 plt.show()
+
+classify = [[] for i in range(len(dot_set))]
+classes = ['NA' for i in range(3)]
+for i in range(len(dot_set)):
+    classify[i].append(-1 * (dot_set[i][0] + dot_set[i][1]) + 5)
+    classify[i].append(-1 * dot_set[i][0] + 3)
+    classify[i].append(-1 * dot_set[i][0] + dot_set[i][1] - 1)
+    if classify[i][0] > 0 and classify[i][1] > 0: classes[i] = 1
+    elif classify[i][0] > 0 and classify[i][2] >0: classes[i] = 2
+    elif classify[i][1] > 0 and classify[i][2] >0: classes[i] = 3
+
+list(map(lambda x, y: print("Dot",x,"is in class:",y),dot_set,classes))
