@@ -1,7 +1,6 @@
 import math
 import numpy as np
 from plotDecBoundaries import plotDecBoundaries  # datasets and script are supposed to be in same directory
-from scipy.spatial.distance import cdist
 
 train_data_dir = 'wine_train.csv'  # datasets and script are supposed to be in same directory
 test_data_dir = 'wine_test.csv'
@@ -41,7 +40,7 @@ def read_and_mean(directory):
 def judge_and_err(input_data, mean):
     ss = [1 if (m[0] - i[0]) ** 2 + (m[1] - i[1]) ** 2 < (m[2] - i[0]) ** 2 + (m[3] - i[1]) ** 2 else 0 for i in
           input_data for m in mean]  # direct distance calculation instead of calling cdist function
-    judged = list(zip(*[iter(ss)] * 3))  # using iteration to group every 3 of the elements in the list
+    judged = list(zip(*[iter(ss)] * 3))  # using iteration to group each 3 of the elements in the list
     # judged = [(1, 0, 0), (1, 0, 0), (1, 1, 0)...]
     seq = [m.index(1) + 1 if m.count(1) == 1 else 0 for m in judged]
     # seq = [1, 1, 0, 1, 1, 1, ..., 2, 0 ...]
@@ -49,4 +48,6 @@ def judge_and_err(input_data, mean):
 
 
 train_data, train_label, train_mean = read_and_mean('wine_train.csv')
-judged, seq = judge_and_err(train_data, train_mean)
+judged, seq = judge_and_err(train_data, train_mean)  # change train_data to what you like to input
+result = list(map(lambda x,y: 1 if x==y else 0,seq, train_label))  # turn 1, 2 and 3 in seq all into 1
+print(result.count(0)/len(result))
