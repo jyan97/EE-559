@@ -1,7 +1,5 @@
-from scipy.spatial.distance import cdist
+from matplotlib import pyplot as plt
 
+plt.annotate(s = 'Class 1', xy=(0, 0), xytext=(1, 0.5), arrowprops=dict(arrowstyle="->"))
 
-a = [1,2]
-b = [2,3]
-c = cdist(a,b,metric='euclidean')
-print(c)
+plt.show( )

@@ -49,5 +49,5 @@ def judge_and_err(input_data, mean):
 
 train_data, train_label, train_mean = read_and_mean('wine_train.csv')
 judged, seq = judge_and_err(train_data, train_mean)  # change train_data to what you like to input
-result = list(map(lambda x,y: 1 if x==y else 0,seq, train_label))  # turn 1, 2 and 3 in seq all into 1
-print(result.count(0)/len(result))
+result = list(map(lambda x, y: 1 if x == y else 0, seq, train_label))  # turn 1, 2 and 3 in seq all into 1
+print(result.count(0) / len(result))
