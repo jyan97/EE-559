@@ -29,7 +29,7 @@ x_bar.spines['top'].set_color('none')
 x_bar.spines['bottom'].set_position(('data', 0))
 x_bar.spines['left'].set_position(('data', 0))
 
-plt.scatter(dot_x, dot_y, color='r', zorder=100, linewidths=4)
+plt.scatter(dot_x, dot_y, color='r', zorder=100, linewidths=3)
 plt.grid(True)
 
 classify = [[] for i in range(len(dot_set))]

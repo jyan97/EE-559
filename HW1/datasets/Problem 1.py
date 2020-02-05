@@ -81,23 +81,23 @@ print("The error rate is:", err_rate)
 plotDecBoundaries(test_data, test_label, mean_data)  # or replace test_data with train_dataset.tolist()
 #################################
 
-###### The following codes are for wine data set
-opt_i, opt_j, opt_err_rate = 0, 0, 100  # opt_err_rate is arbitrarily set that is larger than 1
-err_list = []
-for i in range(label_column):  # we assume the label is the last column
-    for j in range(i + 1, label_column):
-        test_data, test_label = read_test_data(test_data_dir, i, j, label_column)
-        x_data, y_data, train_label, mean_data = read_and_mean(train_data_dir, i, j, label_column)
-        train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
-        train_label = np.array(train_label)
-
-        output = judge(train_dataset.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
-        err_rate = 1 - error_rate(output, train_label.tolist())  # or replace test_label with train_label.tolist()
-        err_list.append(err_rate)
-        if err_rate < opt_err_rate: opt_i, opt_j, opt_err_rate = i, j, err_rate
-
-print("The minimum error rate comes with columns {} and {} with an error-rate of {}".format(opt_i + 1, opt_j + 1,
-                                                                                            opt_err_rate))
-print("The mean of error_rate is :", np.mean(np.array(err_list)))
-print("The standard deviation of error_rate is :", np.std(np.array(err_list), ddof=1))
+# ###### The following codes are for wine data set
+# opt_i, opt_j, opt_err_rate = 0, 0, 100  # opt_err_rate is arbitrarily set that is larger than 1
+# err_list = []
+# for i in range(label_column):  # we assume the label is the last column
+#     for j in range(i + 1, label_column):
+#         test_data, test_label = read_test_data(test_data_dir, i, j, label_column)
+#         x_data, y_data, train_label, mean_data = read_and_mean(train_data_dir, i, j, label_column)
+#         train_dataset = np.array([x_data, y_data]).T  # merge x_data and y_data and convert to np.array
+#         train_label = np.array(train_label)
+#
+#         output = judge(train_dataset.tolist(), mean_data)  # or replace test_data with train_dataset.tolist()
+#         err_rate = 1 - error_rate(output, train_label.tolist())  # or replace test_label with train_label.tolist()
+#         err_list.append(err_rate)
+#         if err_rate < opt_err_rate: opt_i, opt_j, opt_err_rate = i, j, err_rate
+#
+# print("The minimum error rate comes with columns {} and {} with an error-rate of {}".format(opt_i + 1, opt_j + 1,
+#                                                                                             opt_err_rate))
+# print("The mean of error_rate is :", np.mean(np.array(err_list)))
+# print("The standard deviation of error_rate is :", np.std(np.array(err_list), ddof=1))
 #################################

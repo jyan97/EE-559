@@ -30,7 +30,7 @@ def plotDecBoundaries(training, label_train, sample_mean):
     yrange = (min_y, max_y)
 
     # step size for how finely you want to visualize the decision boundary.
-    inc = 0.005
+    inc = 0.01
 
     # generate grid coordinates. this will be the basis of the decision
     # boundary visualization.
@@ -43,7 +43,13 @@ def plotDecBoundaries(training, label_train, sample_mean):
 
     # distance measure evaluations for each (x,y) pair.
     dist_mat = cdist(xy, sample_mean)
-    pred_label = np.argmin(dist_mat, axis=1)
+    pred_label_1 = np.argmax(dist_mat[:,0:2], axis=1).tolist()   # It is obvious that here has to be argmax instead of min.
+    pred_label_2 = np.argmax(dist_mat[:,2:4], axis=1).tolist()
+    pred_label_3 = np.argmax(dist_mat[:,4:6], axis=1).tolist()  # I am not familiar with numpy so I use list instead.
+
+    pred_label = list(zip(*[pred_label_1, pred_label_2, pred_label_3]))  # unzip and list
+    pred_label = [m.index(1) + 1 if m.count(1) == 1 else 0 for m in pred_label]
+    pred_label = np.array(pred_label)
 
     # reshape the idx (which contains the class label) into an image.
     decisionmap = pred_label.reshape(image_size, order='F')
@@ -66,9 +72,9 @@ def plotDecBoundaries(training, label_train, sample_mean):
 
     # plot the class mean vector.
     m1, = plt.plot(sample_mean[0,0], sample_mean[0,1], 'rd', markersize=12, markerfacecolor='r', markeredgecolor='w')
-    m2, = plt.plot(sample_mean[1,0], sample_mean[1,1], 'gd', markersize=12, markerfacecolor='g', markeredgecolor='w')
+    m2, = plt.plot(sample_mean[2,0], sample_mean[2,1], 'gd', markersize=12, markerfacecolor='g', markeredgecolor='w')
     if nclass == 3:
-        m3, = plt.plot(sample_mean[2,0], sample_mean[2,1], 'bd', markersize=12, markerfacecolor='b', markeredgecolor='w')
+        m3, = plt.plot(sample_mean[4,0], sample_mean[4,1], 'bd', markersize=12, markerfacecolor='b', markeredgecolor='w')
 
     # include legend for class mean vector
     if nclass == 3:

@@ -40,16 +40,16 @@ def plotDecBoundaries(training, label_train, sample_mean):
     # decision boundary image that is used as the plot background.
     image_size = x.shape
     xy = np.hstack( (x.reshape(x.shape[0]*x.shape[1], 1, order='F'), y.reshape(y.shape[0]*y.shape[1], 1, order='F')) ) # make (x,y) pairs as a bunch of row vectors.
-
+     #  meshgrid 一开始x和y是分开的，这里将x和y先reshape展平，然后压扁（每个x和y一组）
     # distance measure evaluations for each (x,y) pair.
-    dist_mat = cdist(xy, sample_mean)
-    pred_label = np.argmin(dist_mat, axis=1)
+    dist_mat = cdist(xy, sample_mean)   # 生成n * 3的距离矩阵，3列是因为有3个class
+    pred_label = np.argmin(dist_mat, axis=1)   # 找到每个meshgrid坐标点对三个mean的距离最小的index，即分类。axis=1是每一行找
 
     # reshape the idx (which contains the class label) into an image.
     decisionmap = pred_label.reshape(image_size, order='F')
 
     #show the image, give each coordinate a color according to its class label
-    plt.imshow(decisionmap, extent=[xrange[0], xrange[1], yrange[0], yrange[1]], origin='lower')
+    plt.imshow(decisionmap, extent=[xrange[0], xrange[1], yrange[0], yrange[1]], origin='lower')  # 将[0,0]放在左上角还是左下角
 
     # plot the class training data.
     plt.plot(training[label_train == 1, 0],training[label_train == 1, 1], 'rx')
