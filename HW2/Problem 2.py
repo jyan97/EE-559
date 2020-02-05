@@ -62,9 +62,16 @@ def judge_and_err(input_data, mean):
 
 train_data, train_label, train_mean = read_and_mean('wine_train.csv')
 test_data, test_label = read_test_data('wine_test.csv')
+judged, seq = judge_and_err(train_data, train_mean)  # change train_data to what you like to input  ###
+result = list(map(lambda x, y: 1 if x == y else 0, seq, train_label))  # turn 1, 2 and 3 in seq all into 1  ###
+print("The accuracy of training dataset is {}.".format(result.count(1) / len(result)))
+train_mean_input = np.array(
+    list(zip(*[iter(sum(train_mean, []))] * 2)))  # Convert mean_array to format that fit the plot func
+plotDecBoundaries(np.array(train_data), np.array(train_label), train_mean_input)  ###
+
 judged, seq = judge_and_err(test_data, train_mean)  # change train_data to what you like to input  ###
 result = list(map(lambda x, y: 1 if x == y else 0, seq, test_label))  # turn 1, 2 and 3 in seq all into 1  ###
-print("The error rate is {}.".format(result.count(0) / len(result)))
+print("The accuracy of testing dataset is {}.".format(result.count(1) / len(result)))
 
 train_mean_input = np.array(
     list(zip(*[iter(sum(train_mean, []))] * 2)))  # Convert mean_array to format that fit the plot func
