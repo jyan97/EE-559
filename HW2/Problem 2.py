@@ -10,6 +10,7 @@ label_column = 13  # list index which starts from 0
 
 
 def read_and_mean(directory):
+    global first_column, second_column, label_column
     with open(directory, 'r') as train_data:
         reader = train_data.read().splitlines()
         x_data, y_data, label = [], [], []
@@ -34,6 +35,18 @@ def read_and_mean(directory):
     return list(map(list, zip(*[x_data, y_data]))), label, class_mean
 
 
+def read_test_data(test_dir):
+    global first_column, second_column, label_column
+    with open(test_dir, 'r') as train_data:
+        reader = train_data.readlines()  # if using csv, the reader could only read once since it's a iterator
+        test = [rows.split(',') for rows in reader]
+        test_data = [[data[first_column], data[second_column]] for data in test]
+        test_label = [data[label_column] for data in test]
+        test_label = list(map(int, test_label))
+    for first_column in range(len(test_data)):
+        test_data[first_column] = list(map(float, test_data[first_column]))
+    return test_data, test_label
+
 # def cal_bound(mean_arr):
 #     return [[(m[0]-m[2])/(m[3]-m[1]), (m[2]**2-m[0]**2+m[3]**2-m[1]**2)/(2*(m[3]-m[1]))] for m in mean_arr]
 
@@ -48,10 +61,11 @@ def judge_and_err(input_data, mean):
 
 
 train_data, train_label, train_mean = read_and_mean('wine_train.csv')
-judged, seq = judge_and_err(train_data, train_mean)  # change train_data to what you like to input
-result = list(map(lambda x, y: 1 if x == y else 0, seq, train_label))  # turn 1, 2 and 3 in seq all into 1
-print(result.count(0) / len(result))
+test_data, test_label = read_test_data('wine_test.csv')
+judged, seq = judge_and_err(test_data, train_mean)  # change train_data to what you like to input  ###
+result = list(map(lambda x, y: 1 if x == y else 0, seq, test_label))  # turn 1, 2 and 3 in seq all into 1  ###
+print("The error rate is {}.".format(result.count(0) / len(result)))
 
-train_mean_input = np.array(list(zip(*[iter(sum(train_mean, []))] * 2)))
-print(train_mean_input)  # transfer
-plotDecBoundaries(np.array(train_data), np.array(train_label), train_mean_input)
+train_mean_input = np.array(
+    list(zip(*[iter(sum(train_mean, []))] * 2)))  # Convert mean_array to format that fit the plot func
+plotDecBoundaries(np.array(test_data), np.array(test_label), train_mean_input)  ###
