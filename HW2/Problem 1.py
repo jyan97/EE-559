@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 coeff_mat = [[-1, -1, 5], [-1, 0, 3], [-1, 1, -1]]
 coeff_mat_T = [[-(x[1] / x[0]), -(x[2] / x[0])] for x in coeff_mat]
-dot_set = [[4, 1], [1, 5], [0, 0]]
+dot_set = [[4, 1], [1, 5], [0, 0], [2.5, 3]]  # [2.5, 3] is an example for indeterminate point
 dot_x, dot_y = list(map(list, zip(*dot_set)))
 
 plt.figure(figsize=(8, 8))
@@ -33,7 +33,7 @@ plt.scatter(dot_x, dot_y, color='r', zorder=100, linewidths=3)
 plt.grid(True)
 
 classify = [[] for i in range(len(dot_set))]
-classes = ['Indeterminate' for i in range(3)]
+classes = ['Indeterminate Point' for i in range(4)]
 for i in range(len(dot_set)):
     classify[i].append(-1 * (dot_set[i][0] + dot_set[i][1]) + 5)
     classify[i].append(-1 * dot_set[i][0] + 3)
@@ -49,6 +49,7 @@ list(map(lambda x, y: print("Dot", x, "is in class:", y), dot_set, classes))
 
 plt.annotate(s='Class 1', xy=(0.2, 0.1), xytext=(1, 0.5), arrowprops=dict(facecolor='red'))
 plt.annotate(s='Class 2', xy=(1.2, 5.1), xytext=(2, 5.5), arrowprops=dict(facecolor='red'))
-plt.annotate(s='Indeterminate', xy=(4.2, 1.1), xytext=(5, 1.5), arrowprops=dict(facecolor='red'))
+plt.annotate(s='Indeterminate Point', xy=(4.2, 1.1), xytext=(5, 1.5), arrowprops=dict(facecolor='blue'))
+plt.annotate(s='Indeterminate Regions', xy=(2.7, 3.2), xytext=(3.2, 3.7), arrowprops=dict(facecolor='blue'))
 plt.legend()
 plt.show()
