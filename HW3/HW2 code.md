@@ -1,3 +1,18 @@
+# EE559 Homework 3 (week 4)
+
+**Jingquan Yan**
+
+**USC ID: 1071912676**
+
+**Email: jingquan@usc.edu**
+
+**EE559 repository:** [**Github**](https://github.com/jyan97/EE-5-5-9)
+
+---
+
+#### Modified plotDecBoundaries.py : ####
+
+```python
 ################################################
 ## EE559 HW Wk2, Prof. Jenkins, Spring 2018
 ## Created by Arindam Jati, TA
@@ -66,3 +81,23 @@ def plotDecBoundaries(training, label_train, mean):
     plt.annotate(s='', xy=training[0], xytext=(0, 0), arrowprops=dict(facecolor='black', width=2, headwidth=8))
 
     plt.show()
+
+```
+
+#### Problem 1:
+
+```python
+from plotDecBoundaries import plotDecBoundaries
+import numpy as np
+
+train_data = [[1, -3], [1, -5], [1, 1], [1, -1]]
+train_label = [1, 1, 2, 2]
+
+mean = [1, 0.25 * sum(x[1] for x in train_data)]
+
+plotDecBoundaries(np.array(train_data), np.array(train_label), mean)
+
+reflected_data = [[-x for x in train_data[i]] if train_label[i] != 1 else train_data[i] for i in range(len(train_data))]
+
+plotDecBoundaries(np.array(reflected_data), np.array(train_label), mean)
+```
