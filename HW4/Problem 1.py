@@ -1,6 +1,5 @@
 import numpy as np
 from plotDecBoundaries import plotDecBoundaries
-from matplotlib import pyplot as plt
 
 
 def read_data(data_dir, label_dir):
@@ -22,7 +21,7 @@ def read_data(data_dir, label_dir):
     return np.array(data_set), np.array(data_set_ref), np.array(label_set)
 
 
-x, x_reflected, y = read_data("synthetic1_train.csv", "synthetic1_train_label.csv")
+x, x_reflected, y = read_data("synthetic3_test.csv", "synthetic3_test_label.csv")
 index = np.random.permutation(len(y))
 x, x_reflected, y = x[index], x_reflected[index], y[index]  # shuffle data and label simultaneously
 w_temp = np.asarray([0.1, 0.1, 0.1])
