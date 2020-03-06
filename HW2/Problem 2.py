@@ -75,4 +75,5 @@ print("The accuracy of testing dataset is {}.".format(result.count(1) / len(resu
 
 train_mean_input = np.array(
     list(zip(*[iter(sum(train_mean, []))] * 2)))  # Convert mean_array to format that fit the plot func
+print(train_mean_input)
 plotDecBoundaries(np.array(test_data), np.array(test_label), train_mean_input)  ###

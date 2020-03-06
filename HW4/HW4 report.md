@@ -25,7 +25,6 @@
 <div align=left><img src="C:\git\559\HW4\pic\21.png" style="zoom:65%;" />
 
 <div align=left><img src="C:\git\559\HW4\pic\22.png" style="zoom:85%;" />
-
 ---
 
 ## Synthetic 2 Dataset:
@@ -41,7 +40,6 @@
 <div align=left><img src="C:\git\559\HW4\pic\41.png" style="zoom:65%;" />
 
 <div align=left><img src="C:\git\559\HW4\pic\42.png" style="zoom:85%;" />
-
 ---
 
 ## Synthetic 3 Dataset:
@@ -57,7 +55,6 @@
 <div align=left><img src="C:\git\559\HW4\pic\61.png" style="zoom:65%;" />
 
 <div align=left><img src="C:\git\559\HW4\pic\62.png" style="zoom:85%;" />
-
 ---
 
 
