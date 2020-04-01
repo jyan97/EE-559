@@ -73,6 +73,7 @@ def plotSVMBoundaries(training, label_train, classifier, support_vectors = []):
         sv_y = support_vectors[:, 1]
         plt.scatter(sv_x, sv_y, s = 100, c = 'blue')
 
+
     plt.show()
     
 
