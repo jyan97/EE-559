@@ -1,11 +1,6 @@
-from sklearn.svm import SVC
 import numpy as np
-
-np.set_printoptions(threshold=np.inf)
-from sklearn.model_selection import StratifiedKFold
-from sklearn.model_selection import cross_val_score
-import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
+from sklearn.svm import SVC
 import plotSVMBoundaries
 
 
