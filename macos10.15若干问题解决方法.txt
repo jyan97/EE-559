@@ -1,0 +1,35 @@
+安装任意文件
+sudo spctl --master-disable
+===
+去除鼠标加速度
+defaults write .GlobalPreferences com.apple.mouse.scaling -1
+===
+将设置-辅助功能-光标 的移动时变大 取消勾选。
+===
+解决蓝牙问题：
+物理连接usb2.0.右键-显示包内容， 打开USBPorts.kext（用Propertree）。然后在一堆HS01 HS02后面加上HS05，UsbConnector：255， name：HS05， port：05000000。同时删除HS10项（这是自带intel网卡的端口）。
+然后保存，导入EFI中。重启，用hackintool查看USB项是不是没有HS10，只有HS05，而且是绿色的。
+===
+        1.查看自己的驱动
+        到EFI/CLOVER/kexts/Other文件夹下看一看自己的驱动，是否存在USBPorts.kext，USBInjectAll.kext，FakePCIID.kext，其中USBPorts.kext，USBInjectAll.kext这两个驱动有一个就行，作用是一样的。FakePCIID.kext不一定和我的名字一样，也许你的驱动是这样的：
+        FakePCIID_AR9280_as_AR946x.kext
+        FakePCIID_Broadcom_WiFi.kext
+        FakePCIID_Intel_GbX.kext
+        FakePCIID_Intel_HD_Graphics.kext
+        FakePCIID_Intel_HDMI_Audio.kext
+        FakePCIID_XHCIMux.kext
+        如果存在上面我说的两种驱动，那么看下一步。
+       2.第一步，修复睡眠。
+       如图所示，打开HACKINTOOL软件，如果没有请自行下载。点击电源菜单，看图中hibernatemode和proximitywake的值是否为0，如果不为0，请点击下方“修复深度睡眠预留空间”会自动修改为0.
+
+
+
+         3.第二步，去除HDMI音频输出。
+
+     到EFI/CLOVER/kexts/Other文件夹下，如果你的FakePCIID.kext中有FakePCIID_Intel_HDMI_Audio.kext，将其删除即可。
+     如果没有这个文件，而是FakePCIID-NUC8BE.kext这种定制过的FakePCIID.kext，那么右键点击这个文件，会出现菜单，选择“显示包内容”，你会看到一个“Contents”文件夹，打开它，就会看到info.plist文件，用Xcode打开，如果嫌xcode太大没有下载，可以选择使用“PlistEdit Pro”打开，找到IOKitpersonalitles项，将其子项带有Intel_HDMI_Audio字样的项目删除即可。
+
+
+        4.经过上面的步骤，睡眠重启的问题可能就解决了。如果还没有解决，可能是USB定制问题，请查找USB定制有关教程。
+        当然，这仅仅是我机型的解决方案，是否适配所有机型不清楚，而且本人是新手，因此如有疏漏错误，请大神们轻喷。
+        另外，推荐“豪客88”《NUC8BEX 黑苹果维护教程》《Hackintosh 定制FakePCIID.kext》。文末软件均为“豪客88”链接，不是本人网盘，特此声明，如有侵权，请通知本人删除
